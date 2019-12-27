@@ -1,0 +1,68 @@
+<button id="mic"><i class="fas fa-microphone fa-2x"></i></button> 
+
+<style>
+  #mic {
+    width: 50px;
+        height: 50px;
+        position:fixed;
+        left:0; right:0;
+        top:85vh; bottom:0;
+        margin:auto;
+        max-width:100%;
+        max-height:100%;
+        overflow:auto;
+  }
+</style>
+
+<script>
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+    var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+    var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+    
+    const synth = window.speechSynthesis;
+    
+    document.addEventListener('click', ({ target }) => {
+    if (!target.matches('button')) return;
+    console.log('Click detected: ' + target.outerHTML);
+    });
+
+    var buttonNames = [ 'get to work', 'wake up buddy'];
+  
+    var recognition = new SpeechRecognition();
+  
+    const speak = () => {
+      var utterThis = new SpeechSynthesisUtterance('Hello Boss, what do you need ?');
+      synth.speak(utterThis);
+    }
+
+
+    document.querySelector('#mic').addEventListener('click', function(e) {
+    if (e.target.matches('button')) return;
+
+    speak();
+    const recog =() =>{ recognition.start(); }
+    setTimeout(recog,4000);
+    console.log('Listening');
+    })
+  
+    recognition.onresult = function(event) {
+    var last = event.results.length - 1;
+    var speechText = event.results[last][0].transcript;
+    console.log('Heard ' + speechText);
+    const foundButtonIndex = buttonNames.findIndex(buttonName => buttonName === speechText);
+    console.log(foundButtonIndex);
+    if (foundButtonIndex !== -1) document.querySelectorAll('a')[foundButtonIndex].click();
+    }
+
+    recognition.onspeechend = function() {
+    recognition.stop();
+    }
+  
+    recognition.onnomatch = function(event) {
+    console.log('Not recognized')
+    }
+  
+    recognition.onerror = function(event) {
+    console.log('Error ' + event.error);
+    }
+  </script>

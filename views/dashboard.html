@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+
+<body>
+		<h1 class="mt-4">Dashboard</h1>
+		<p class="lead mb-3">Welcome <em><%= name %></em></p>
+		<p><i class="far fa-handshake fa-3x"></i></p>
+		<a href="/users/logout" class="btn btn-secondary">Logout</a>
+
+		<div id="container">
+				<h1>To-Do List <i class="fas fa-plus"></i></h1>
+				<input type="text" placeholder="Add New Todo">
+			
+				<ul>
+					<li><span><i class="fas fa-trash-alt"></i></span> Go To Potions Class</li>
+					<li><span><i class="fas fa-trash-alt"></i></span> Buy New Robes</li>
+					<li><span><i class="fas fa-trash-alt"></i></span> Visit Hagrid</li>
+				</ul>
+			</div>
+
+<script>
+
+	// Check Off Specific Todos By Clicking
+	$("ul").on("click", "li", function(){
+		$(this).toggleClass("completed");
+	});
+
+	//Click on X to delete Todo
+	$("ul").on("click", "span", function(event){
+		$(this).parent().hide(function(){
+			$(this).remove();
+		});
+		event.stopPropagation();
+	});
+
+	$("input[type='text']").keypress(function(event){
+		if(event.which === 13){
+			//grabbing new todo text from input
+			var todoText = $(this).val();
+			$(this).val("");
+			//create a new li and add to ul
+			$("ul").append("<li><span><i class='fa fa-trash'></i></span> " + todoText + "</li>")
+		}
+	});
+
+	$(".fa-plus").click(function(){
+		$("input[type='text']").toggle();
+	});
+
+</script>
+
+</body>
+</html>
