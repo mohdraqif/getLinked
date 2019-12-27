@@ -41,7 +41,7 @@
 
     speak();
     const recog =() =>{ recognition.start(); }
-    setTimeout(recog,4000);
+    setTimeout(recog,8000);
     console.log('Listening');
     })
   
@@ -63,6 +63,6 @@
     }
   
     recognition.onerror = function(event) {
-    console.log('Error ' + event.error);
+    console.log('Error: ' + event.error);
     }
   </script>
